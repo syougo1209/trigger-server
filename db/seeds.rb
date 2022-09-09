@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+(1..5).each do |i|
+  Station.create!(code: "aaaaa#{i}", latitude: 21.1, longitude: 32.1)
+end
