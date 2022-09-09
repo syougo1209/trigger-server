@@ -15,4 +15,8 @@ ADD Gemfile.lock .
 # Gemfileのbundle install
 RUN bundle install
 ADD . /app
-EXPOSE 3000
+EXPOSE 80
+
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
