@@ -1,5 +1,6 @@
 #!/bin/bash
 
 cd /app
-rm tmp/pids/server.pid
 bin/setup
+echo "finished setup"
+bundle exec pumactl start
