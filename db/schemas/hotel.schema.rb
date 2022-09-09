@@ -4,7 +4,7 @@ create_table "hotels", id: :bigint, unsigned: true, force: :cascade, options: "E
   t.integer "price",      null: false
   t.float   "latitude",   null: false
   t.float   "longitude",  null: false
-  t.integer "genre",    null: false
+  t.integer "genre",      null: false
 
   t.timestamps
 end
