@@ -1,1 +1,2 @@
-require 'station.schema'
+require 'hotel.schema.rb'
+require 'station.schema.rb'
