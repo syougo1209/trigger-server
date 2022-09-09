@@ -19,7 +19,7 @@ default: &default
 
 development:
   <<: *default
-  database: app_name_development
+  database: root
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -49,6 +49,5 @@ test:
 #
 production:
   <<: *default
-  database: app_name_production
-  username: app_name
-  password: <%= ENV['APP_NAME_DATABASE_PASSWORD'] %>
+  database: app_production
+  url: <%= ENV['DATABASE_URL'] %>
