@@ -2,6 +2,7 @@ create_table "hotels", id: :bigint, unsigned: true, force: :cascade, options: "E
   t.bigint  "station_id", null: false, unsigned: true
   t.string  "name",       null: false
   t.integer "price",      null: false
+  t.string  "postcode",   null: false
   t.float   "latitude",   null: false
   t.float   "longitude",  null: false
   t.integer "genre",      null: false
