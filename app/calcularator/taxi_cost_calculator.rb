@@ -1,6 +1,6 @@
 class TaxiCostCalculator
-  def self.calc_cost(point1, point2)
-    kilometer = point1.distance_to(point2)
+  def self.calc_cost(coordinates1, coordinates2)
+    kilometer = Geocoder::Calculations.distance_between(coordinates1, coordinates2)
     meter = kilometer * 1000
 
     420 + ((meter - 1052) / 233).to_i * 80
