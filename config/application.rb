@@ -33,5 +33,46 @@ module AppName
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
   end
 end
+
+
+
+
+[
+  {
+    from: "shibuya_sta",
+    to: "shinagawa_sta",
+    leave_at: "0:13",
+    arrive_at: "0:25",
+    line: [
+      {
+        name: "山手線",
+        direction: "品川・東京方面（内回り）",
+        leave_at: "0:13",
+        arrive_at: "0:25",
+        stop_at: [
+          {
+            station_code: "ebisu_sta",
+            station_name: "恵比寿駅"
+          },
+          {
+            station_code: "meguro_sta",
+            station_name: "目黒駅"
+          },
+          {
+            station_code: "gotanda_sta",
+            station_name: "五反田駅"
+          },
+          {
+            station_code: "osaki_sta",
+            station_name: "大崎駅"
+          }
+        ]
+      }
+    ]
+  }
+]
