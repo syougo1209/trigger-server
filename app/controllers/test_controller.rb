@@ -1,6 +1,6 @@
 class TestController < ApplicationController
   def index
-    stations = Station.all
-    render json: stations
+    tests = ["test", "desu"]
+    render json: tests
   end
 end
