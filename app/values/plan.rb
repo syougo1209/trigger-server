@@ -13,7 +13,6 @@ class Plan
 
   attribute :details, default: []
 
-  def initialize(attributes={})
     super(attributes)
     @time_limit = attributes[:details].first.leaved_at
     @physical_point = attributes[:details].inject(0) { |sum, detail| sum + detail.next_action.physical_point }
@@ -23,4 +22,3 @@ class Plan
     @is_use_hotel = attributes[:details].any? {|detail| detail.next_action.use_hotel?}
     @details_length = attributes[:details].size
   end
-end
