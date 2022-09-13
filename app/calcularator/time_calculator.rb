@@ -1,7 +1,7 @@
 class TimeCalculator
-  def self.travel_minute(point1, point2, speed)
-    kilometer = point1.distance_to(point2)
-    
+  def self.travel_minute(coordinates1, coordinates2, speed)
+    kilometer = Geocoder::Calculations.distance_between(coordinates1, coordinates2)
+
     kilometer * 60 / speed
   end
 end
