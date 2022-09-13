@@ -1,4 +1,3 @@
-require 'json'
 require 'mocks/syuden_mock'
 
 class TrainRouteClient
@@ -18,14 +17,11 @@ class TrainRouteClient
     private
 
     def shibuya_to_hodogaya
-      path = File.expand_path('../mocks/shibuya_to_hodogaya_syuden.json', __FILE__)
-      file = File.read(path)
-      
-      JSON.parse(file, symbolize_names: true)
+      Mocks::SyudenMock.shibuya_to_hodogaya
     end
 
     def shibuya_to_shinagawa
-      File.open("sample.json", "w")
+      Mocks::SyudenMock.shibuya_to_shinagawa
     end
   end
 end
