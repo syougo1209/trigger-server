@@ -8,8 +8,12 @@ class Route
   attribute :price, :integer
   attr_reader :next_action
 
-  def initialize(attributes = nil, next_action: NextAction.new)
-    @next_action = next_action
+  def initialize(attributes = nil)
+    @next_action = attributes[:next_action]
     super(attributes)
+  end
+
+  def total_price_of_next_action_and_route
+    price + next_action.price
   end
 end
