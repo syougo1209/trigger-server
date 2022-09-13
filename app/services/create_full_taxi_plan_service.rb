@@ -1,39 +1,34 @@
 class CreateFullTaxiPlanService
-  ##中目黒 35.643349, 139.694643
-  ## 大久保 35.699840, 139.699339
+  # 中目黒 35.643349, 139.694643
+  # 大久保 35.699840, 139.699339
 
-  def initialize(current_coordinates:,home_coordinates:)
+  def initialize(current_coordinates:, home_coordinates:)
     @current_coordinates = current_coordinates
     @home_coordinates = home_coordinates
   end
 
   def call
-    @cost = TaxiCostCalculator.calc_cost(@current_coordinates, @home_coordinates)
-    @minute = TimeCalculator.travel_minute(@current_coordinates, @home_coordinates, 40)
+    detail1 = create_full_taxi_route
+    detail2 = create_home_route
 
-    route1 = create_full_taxi_route
-    arrived_at_home = Time.current + (@minute *60)
-
-    route2 = create_home_route(arrived_at_home)
-
-    result = create_result([route1,route2])
-
-    Plan.new(routes: [route1, route2])
+    Plan.new(details: [detail1, detail2])
   end
 
   private
 
   def create_full_taxi_route
     train = Train.new
-    next_action = NextAction.new( method: 'taxi', price: @cost, required_minute: @minute , train: train, physical_point: 100)
+    cost = TaxiCostCalculator.calc_cost(@current_coordinates, @home_coordinates)
+    minute = TimeCalculator.travel_minute(@current_coordinates, @home_coordinates, 40)
+    next_action = NextAction.new(method: 'taxi', price: cost, required_minute: minute , physical_point: 100, train: train)
 
-    Route.new(name: '現在地', price: 0 , next_action: next_action, arrived_at: nil, leaved_at: nil)
+    Detail.new(name: '現在地', next_action: next_action)
   end
 
-  def create_home_route(arrived_at_home)
+  def create_home_route
     train = Train.new
-    next_action = NextAction.new(method: '', price: 0, required_minute: 0, train: train, physical_point: 0)
+    next_action = NextAction.new(train: train)
 
-    Route.new(name: '自宅', price: 0 , next_action: next_action, arrived_at: arrived_at_home, leaved_at: nil)
+    Detail.new(name: '自宅', next_action: next_action)
   end
 end
