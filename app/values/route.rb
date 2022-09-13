@@ -6,12 +6,7 @@ class Route
   attribute :arrived_at, :datetime
   attribute :leaved_at, :datetime
   attribute :price, :integer
-  attr_reader :next_action
-
-  def initialize(attributes = nil)
-    @next_action = attributes[:next_action]
-    super(attributes)
-  end
+  attribute :next_action
 
   def total_price_of_next_action_and_route
     price + next_action.price

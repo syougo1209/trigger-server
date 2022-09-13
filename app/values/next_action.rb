@@ -2,13 +2,22 @@ class NextAction
   include ActiveModel::Model
   include ActiveModel::Attributes
 
+  # todo methodをenumにする
   attribute :method, :string
   attribute :price, :integer
   attribute :required_minute, :integer
-  attr_reader :train
+  attribute :physical_point, :integer
+  attribute :train
 
-  def initialize(attributes = nil, train: Train.new)
-    @train = train
-    super(attributes)
+  def use_taxi?
+    method == 'taxi'
+  end
+
+  def use_train?
+    method == 'train'
+  end
+
+  def use_hotel?
+    method == 'hotel'
   end
 end
