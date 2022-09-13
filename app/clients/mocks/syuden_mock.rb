@@ -145,6 +145,8 @@ module Mocks::SyudenMock
               direction: '品川・東京方面（内回り）',
               track: '2番線',
               price: 168,
+              from: SHIBUYA,
+              to: SHINAGAWA,
               leave_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 0, 13, 0, '+09:00'),
               arrive_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 0, 25, 0, '+09:00'),
               stop_stations: [
