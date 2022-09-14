@@ -24,5 +24,6 @@ namespace :prepare_data do
     Hotel.create!(name: '品川東武ホテル', price: 6700, postcode: '108-0074', genre: Hotel.genres[:hotel], station: shinagawa)
     Hotel.create!(name: '東横ＩＮＮ品川駅高輪口', price: 10300, postcode: '108-0074', genre: Hotel.genres[:hotel], station: shinagawa)
     Hotel.create!(name: '品川プリンスホテル', price: 11690, postcode: '108-8611', genre: Hotel.genres[:hotel], station: shinagawa)
+    puts '== finish! =='
   end
 end
