@@ -16,7 +16,7 @@ class Plan
   def initialize(attributes={})
     super(attributes)
     @time_limit = attributes[:details].first.leave_at
-    @physical_point = attributes[:details].inject(0) { |sum, detail| sum + detail.next_action.physical_point }
+    @physical_point = attributes[:details].inject(0) { |sum, detail| sum + detail.physical_point }
     @price = attributes[:details].inject(0) { |sum, detail| sum + detail.total_price_of_next_action_and_route }
     @is_use_train = attributes[:details].any? {|detail| detail.next_action.use_train?}
     @is_use_taxi = attributes[:details].any? {|detail| detail.next_action.use_taxi?}
