@@ -70,6 +70,7 @@ module Mocks::SyudenMock
               name: '湘南新宿ライン',
               direction: '逗子行',
               track: '4番線',
+              price: 561,
               from: SHIBUYA,
               to: HODOGAYA,
               leave_at: Time.new(date.year, date.month, date.day, 22, 29, 0, '+09:00'),
@@ -95,6 +96,7 @@ module Mocks::SyudenMock
               name: '山手線',
               direction: '品川・東京方面（内回り）',
               track: '2番線',
+              price: 168,
               from: SHIBUYA,
               to: SHINAGAWA,
               leave_at: Time.new(date.year, date.month, date.day, 23, 38, 0, '+09:00'),
@@ -110,6 +112,7 @@ module Mocks::SyudenMock
               name: '横須賀線',
               direction: '大船行き',
               track: '15番線',
+              price: 396,
               from: SHINAGAWA,
               to: HODOGAYA,
               leave_at: Time.new(date.year, date.month, date.day, 23, 59, 0, '+09:00'),
@@ -141,6 +144,9 @@ module Mocks::SyudenMock
               name: '山手線',
               direction: '品川・東京方面（内回り）',
               track: '2番線',
+              price: 168,
+              from: SHIBUYA,
+              to: SHINAGAWA,
               leave_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 0, 13, 0, '+09:00'),
               arrive_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 0, 25, 0, '+09:00'),
               stop_stations: [
@@ -148,6 +154,72 @@ module Mocks::SyudenMock
                 MEGURO,
                 GOTANDA,
                 OSAKI
+              ]
+            }
+          ]
+        }
+      ]
+    end
+
+    def shibuya_to_hodogaya_morning(date: nil)
+      date ||= Time.zone.today
+      nextdate = date.tomorrow
+
+      [
+        {
+          from: SHIBUYA,
+          to: HODOGAYA,
+          leave_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 25, 0, '+09:00'),
+          arrive_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 57, 0, '+09:00'),
+          lines: [
+            {
+              name: '湘南新宿ライン',
+              direction: '大船行',
+              track: '4番線',
+              price: 561,
+              from: SHIBUYA,
+              to: HODOGAYA,
+              leave_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 25, 0, '+09:00'),
+              arrive_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 57, 0, '+09:00'),
+              stop_stations: [
+                EBISU,
+                OSAKI,
+                NISHIOI,
+                MUSASHIKOSUGI,
+                SHINKAWASAKI,
+                YOKOHAMA
+              ]
+            }
+          ]
+        }
+      ]
+    end
+
+    def shinagawa_to_hodogaya_morning(date: nil)
+      date ||= Time.zone.today
+      nextdate = date.tomorrow
+
+      [
+        {
+          from: SHINAGAWA,
+          to: HODOGAYA,
+          leave_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 27, 0, '+09:00'),
+          arrive_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 54, 0, '+09:00'),
+          lines: [
+            {
+              name: '横須賀線',
+              direction: '大船行き',
+              track: '15番線',
+              price: 396,
+              from: SHINAGAWA,
+              to: HODOGAYA,
+              leave_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 27, 0, '+09:00'),
+              arrive_at: Time.new(nextdate.year, nextdate.month, nextdate.day, 9, 54, 0, '+09:00'),
+              stop_stations: [
+                NISHIOI,
+                MUSASHIKOSUGI,
+                SHINKAWASAKI,
+                YOKOHAMA
               ]
             }
           ]

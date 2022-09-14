@@ -1,22 +1,26 @@
-details = @full_taxi_plan.details.map do |detail|
-  hash = detail.attributes
-  hash["next_action"] = hash["next_action"].attributes
-  hash["next_action"]["train"] = hash["next_action"]["train"].attributes
+def create_details_hash(details)
+  details.map do |detail|
+    hash = detail.attributes
 
-  hash
+    hash["next_action"] = hash["next_action"].attributes
+    hash["next_action"]["train"] = hash["next_action"]["train"].attributes
+
+    hash
+  end
 end
-json = [
+
+json = @plans.map do |plan|
   {
-    time_limit: @full_taxi_plan.time_limit,
-    price: @full_taxi_plan.price,
+    time_limit: plan.time_limit,
+    price: plan.price,
     all_point: 0,
-    physical_point: @full_taxi_plan.physical_point,
-    is_use_train: @full_taxi_plan.is_use_train,
-    is_use_taxi: @full_taxi_plan.is_use_taxi,
-    is_use_hotel: @full_taxi_plan.is_use_hotel,
-    details_length: @full_taxi_plan.details_length,
-    details: details
+    physical_point: plan.physical_point,
+    is_use_train: plan.is_use_train,
+    is_use_taxi: plan.is_use_taxi,
+    is_use_hotel: plan.is_use_hotel,
+    details_length: plan.details_length,
+    details: create_details_hash(plan.details)
   }
-]
+end
 
 json

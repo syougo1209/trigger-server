@@ -6,7 +6,7 @@ class NextAction
   attribute :price, :integer, default: 0
   attribute :required_minute, :integer, default: 0
   attribute :physical_point, :integer, default: 0
-  attribute :train
+  attribute :train, default: Train.new
 
   def use_taxi?
     method == 'taxi'
@@ -14,9 +14,5 @@ class NextAction
 
   def use_train?
     method == 'train'
-  end
-
-  def use_hotel?
-    method == 'hotel'
   end
 end
