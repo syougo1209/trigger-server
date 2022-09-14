@@ -22,13 +22,13 @@ class CreateFullTaxiPlanService
     @minute = TimeCalculator.travel_minute(@current_coordinates, @home_coordinates, 40)
     next_action = NextAction.new(method: 'taxi', price: cost, required_minute: @minute , physical_point: 100, train: train)
 
-    Detail.new(name: '現在地', next_action: next_action, leaved_at: Time.current, arrived_at: nil)
+    Detail.new(name: '現在地', next_action: next_action, leave_at: Time.current, arrive_at: nil)
   end
 
   def create_home_route
     train = Train.new
     next_action = NextAction.new(train: train)
     arrived_at = Time.current + @minute * 60
-    Detail.new(name: '自宅', next_action: next_action, leaved_at: nil, arrived_at: arrived_at )
+    Detail.new(name: '自宅', next_action: next_action, leave_at: nil, arrive_at: arrived_at )
   end
 end
