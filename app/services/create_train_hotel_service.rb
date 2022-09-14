@@ -39,8 +39,8 @@ class CreateTrainHotelService
     detail2 = Detail.new(place_genre: 'station', name: line[:from][:station_name], arrive_at: line[:leave_at], leave_at: line[:leave_at], next_action: next_action2)
 
     # ホテルの最寄駅(品川) => ホテル(品川東武ホテル)
-    station_coordinates = Geocoder.search(line[:to][:station_name]).first.coordinates
-    minute3 = TimeCalculator.travel_minute(station_coordinates, cheapest_hotel, WALK_SPEED)
+    transfer_station = Station.find_by(code: line[:to][:station_code])
+    minute3 = TimeCalculator.travel_minute(transfer_station, cheapest_hotel, WALK_SPEED)
     next_action3 = NextAction.new(method: 'walk', required_minute: minute3)
     detail3 = Detail.new(place_genre: 'station', name: line[:to][:station_name], arrive_at: line[:arrive_at], leave_at: line[:arrive_at], next_action: next_action3)
 
