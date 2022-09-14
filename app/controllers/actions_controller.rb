@@ -5,8 +5,8 @@ class ActionsController < ApplicationController
 
     full_taxi_plan = CreateFullTaxiPlanService.new(current_coordinates: current_coordinates, home_coordinates: home_coordinates).call
     train_hotel = CreateTrainHotelService.new(current_coordinates: current_coordinates, home_coordinates: home_coordinates).call
-    hotel_to_home_plan = CreateHotelToHomePlanService.new(current_coordinates: [35.666015, 139.698228], home_coordinates: [35.465967, 139.570486]).call
+    hotel_to_home_plan = CreateHotelToHomePlanService.new(current_coordinates: current_coordinates, home_coordinates: home_coordinates).call
 
-    @plans = [full_taxi_plan, train_hotel]
+    @plans = [full_taxi_plan, train_hotel, hotel_to_home_plan]
   end
 end
