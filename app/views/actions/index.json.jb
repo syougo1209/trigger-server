@@ -19,6 +19,7 @@ json = @plans.map do |plan|
     is_use_taxi: plan.is_use_taxi,
     is_use_hotel: plan.is_use_hotel,
     details_length: plan.details_length,
+    description: plan.description,
     details: create_details_hash(plan.details)
   }
 end

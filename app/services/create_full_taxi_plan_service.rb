@@ -8,7 +8,10 @@ class CreateFullTaxiPlanService
     detail1 = create_full_taxi_route
     detail2 = create_home_route
 
-    Plan.new(details: [detail1, detail2])
+    Plan.new(
+      details: [detail1, detail2],
+      description: '自宅までタクシー'
+    )
   end
 
   private
