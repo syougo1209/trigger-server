@@ -5,46 +5,36 @@ class CreateHotelToHomePlanService
   end
 
   def call
-    @hotel = Hotel.near(@current_coordinates, 10, unit: :km).first
-
-    detail1 = create_walk_detail
-    detail2 = create_hotel_detail
-    detail3 = create_train_detail
-    detail4 = create_home_nearest_station_detail
-
-    Plan.new(details: [detail1, detail2, detail3, detail4])
-  end
-
-  private
-
-  def create_walk_detail
-    minute = TimeCalculator.travel_minute(@current_coordinates, @hotel, 4)
-    next_action = NextAction.new(method: 'walk', price: 0, required_minute: minute , physical_point: 10, train: Train.new)
-    Detail.new(name: '現在地', next_action: next_action, leave_at: nil, arrive_at: nil, place_genre: 'position')
-  end
-
-  def create_hotel_detail
-    @current_nearest_station = Station.near(@current_coordinates, 10, unit: :km).first
-    minute = TimeCalculator.travel_minute(@current_nearest_station, @hotel, 4)
-
-    next_action = NextAction.new(method: 'walk', price: 0, required_minute: minute , physical_point: 10, train: Train.new)
-    Detail.new(name: @hotel.name, price: @hotel.price, next_action: next_action, leave_at: nil, arrive_at: nil, place_genre: 'hotel')
-  end
-
-  def create_train_detail
+    # 現在位置から到達できる駅を調べる
+    current_nearest_station = Station.near(@current_coordinates, 10, unit: :km).first
     home_nearest_station = Station.near(@home_coordinates, 10, unit: :km).first
 
-    @train_route = TrainRouteClient.request(station_code_from: @current_nearest_station.code, station_code_to: home_nearest_station.code, is_next_day: true)
-    line_info = @train_route[0][:lines][0]
-    train = Train.new(line: line_info[:name], direction: line_info[:direction], track: line_info[:track])
-    required_minute =  (@train_route[0][:arrive_at] - @train_route[0][:leave_at])/60
+    # 最も値段が安いホテルをレコメンドするホテルとする
+    cheapest_hotel = Hotel.hotel.includes(:station).where(stations: { code: current_nearest_station.code }).order(:price).first
+    
+    # ホテルからの最寄駅 => 自宅までのルートを計算
+    train_route_to_nearest_home = TrainRouteClient.request(station_code_from: current_nearest_station.code, station_code_to: home_nearest_station.code, is_next_day: true)
 
-    next_action = NextAction.new(method: 'train', price: line_info[:price], required_minute: required_minute, physical_point: 200, train: train)
-    Detail.new(name: @current_nearest_station.name, next_action: next_action, leave_at: @train_route[0][:leave_at], arrive_at: nil, place_genre: 'station')
-  end
+    # Planを返す
+    line_to_nearest_home = train_route_to_nearest_home.first[:lines].first
 
-  def create_home_nearest_station_detail
-    next_action = NextAction.new(train: Train.new)
-    Detail.new(name: @train_route.last[:to][:station_name], next_action: next_action, leave_at: nil, arrive_at: @train_route[0][:arrive_at], place_genre: 'station')
+    # 現在地 => ホテル(渋谷東武ホテル)
+    minute = TimeCalculator.travel_minute(@current_coordinates, cheapest_hotel, 4)
+    next_action1 = NextAction.new(method: 'walk', required_minute: minute , physical_point: 10)
+    detail1 = Detail.new(place_genre: 'other', name: '現在地', arrive_at: nil, leave_at: nil, next_action: next_action1)
+    
+    # ホテル(渋谷東武ホテル) => ホテルの最寄駅(品川)
+    next_action2 = NextAction.new(method: 'walk', required_minute: minute , physical_point: 10)
+    detail2 = Detail.new(place_genre: 'hotel', name: cheapest_hotel.name, price: cheapest_hotel.price, arrive_at: nil, leave_at: line_to_nearest_home[:leave_at] - minute.minute, next_action: next_action2)
+
+    # ホテルの最寄駅(品川) => 自宅の最寄駅(保土ヶ谷駅)
+    train = Train.new(line: line_to_nearest_home[:name], direction: line_to_nearest_home[:direction], track: line_to_nearest_home[:track])
+    next_action3 = NextAction.new(method: 'train', price: line_to_nearest_home[:price], required_minute: (line_to_nearest_home[:arrive_at] - line_to_nearest_home[:leave_at]) / 60, physical_point: 200, train: train)
+    detail3 = Detail.new(place_genre: 'station', name: line_to_nearest_home[:from][:station_name], arrive_at: line_to_nearest_home[:leave_at], leave_at: line_to_nearest_home[:leave_at], next_action: next_action3)
+
+    # 自宅の最寄駅(保土ヶ谷駅)
+    detail4 = Detail.new(place_genre: 'station', name: line_to_nearest_home[:to][:station_name], arrive_at: line_to_nearest_home[:arrive_at], leave_at: nil)
+
+    Plan.new(details: [detail1, detail2, detail3, detail4])
   end
 end
