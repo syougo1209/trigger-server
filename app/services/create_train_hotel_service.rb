@@ -31,7 +31,7 @@ class CreateTrainHotelService
     # 現在地 => 現在地からの最寄駅(渋谷)
     minute1 = TimeCalculator.travel_minute(@current_coordinates, current_nearest_station, WALK_SPEED)
     next_action1 = NextAction.new(method: 'walk', required_minute: minute1)
-    detail1 = Detail.new(place_genre: 'location', name: '現在地', next_action: next_action1, arrive_at: nil, leave_at: line[:leave_at] - minute1.minutes)
+    detail1 = Detail.new(place_genre: 'other', name: '現在地', next_action: next_action1, arrive_at: nil, leave_at: line[:leave_at] - minute1.minutes)
 
     # 現在地からの最寄駅(渋谷) => ホテルの最寄駅(品川)
     train2 = Train.new(line: line[:name], direction: line[:direction], track: line[:track])
