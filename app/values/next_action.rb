@@ -15,8 +15,4 @@ class NextAction
   def use_train?
     method == 'train'
   end
-
-  def use_hotel?
-    method == 'hotel'
-  end
 end
