@@ -1,7 +1,4 @@
 class CreateFullTaxiPlanService
-  # 中目黒 35.643349, 139.694643
-  # 大久保 35.699840, 139.699339
-
   def initialize(current_coordinates:, home_coordinates:)
     @current_coordinates = current_coordinates
     @home_coordinates = home_coordinates
@@ -21,10 +18,10 @@ class CreateFullTaxiPlanService
     minute = TimeCalculator.travel_minute(@current_coordinates, @home_coordinates, 40)
     next_action = NextAction.new(method: 'taxi', price: cost, required_minute: minute , physical_point: 100)
 
-    Detail.new(place_genre: 'position', name: '現在地', next_action: next_action)
+    Detail.new(place_genre: 'other', name: '現在地', next_action: next_action)
   end
 
   def create_home_route
-    Detail.new(place_genre: 'position', name: '自宅')
+    Detail.new(place_genre: 'other', name: '自宅')
   end
 end
