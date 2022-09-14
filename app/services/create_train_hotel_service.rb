@@ -63,6 +63,9 @@ class CreateTrainHotelService
     # 自宅
     detail7 = Detail.new(place_genre: 'other', name: '自宅', arrive_at: line_to_nearest_home[:arrive_at] + minute6.minute, leave_at: nil)
 
-    Plan.new(details: [detail1, detail2, detail3, detail4, detail5, detail6, detail7])
+    Plan.new(
+      details: [detail1, detail2, detail3, detail4, detail5, detail6, detail7],
+      description: "#{cheapest_hotel.station.name}付近で宿泊"
+    )
   end
 end

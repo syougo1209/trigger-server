@@ -32,6 +32,9 @@ class CreateFullTrainPlanService
     # 自宅
     detail4 = Detail.new(place_genre: 'other', name: '自宅', arrive_at: line[:arrive_at] + minute3.minute, leave_at: nil)
 
-    Plan.new(details: [detail1, detail2, detail3, detail4])
+    Plan.new(
+      details: [detail1, detail2, detail3, detail4],
+      description: '終電で帰宅'
+    )
   end
 end

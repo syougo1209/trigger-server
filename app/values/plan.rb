@@ -11,6 +11,7 @@ class Plan
   attr_reader :is_use_hotel
   attr_reader :details_length
 
+  attribute :description, :string, default: ''
   attribute :details, default: []
 
   def initialize(attributes={})
