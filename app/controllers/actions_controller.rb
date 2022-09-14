@@ -1,7 +1,7 @@
 class ActionsController < ApplicationController
   def index
     current_coordinates = [35.666015, 139.698228] # 渋谷区
-    home_coordinates = [35.465967, 139.570486] # 保土ヶ谷
+    home_coordinates = [35.447107, 139.595936] # 保土ヶ谷
 
     full_train_plan = CreateFullTrainPlanService.new(current_coordinates: current_coordinates, home_coordinates: home_coordinates).call
     full_taxi_plan = CreateFullTaxiPlanService.new(current_coordinates: current_coordinates, home_coordinates: home_coordinates).call
