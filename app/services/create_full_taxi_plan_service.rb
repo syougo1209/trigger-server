@@ -17,18 +17,14 @@ class CreateFullTaxiPlanService
   private
 
   def create_full_taxi_route
-    train = Train.new
     cost = TaxiCostCalculator.calc_cost(@current_coordinates, @home_coordinates)
-    @minute = TimeCalculator.travel_minute(@current_coordinates, @home_coordinates, 40)
-    next_action = NextAction.new(method: 'taxi', price: cost, required_minute: @minute , physical_point: 100, train: train)
+    minute = TimeCalculator.travel_minute(@current_coordinates, @home_coordinates, 40)
+    next_action = NextAction.new(method: 'taxi', price: cost, required_minute: minute , physical_point: 100)
 
-    Detail.new(name: '現在地', next_action: next_action, leaved_at: Time.current, arrived_at: nil)
+    Detail.new(place_genre: 'position', name: '現在地', next_action: next_action)
   end
 
   def create_home_route
-    train = Train.new
-    next_action = NextAction.new(train: train)
-    arrived_at = Time.current + @minute * 60
-    Detail.new(name: '自宅', next_action: next_action, leaved_at: nil, arrived_at: arrived_at )
+    Detail.new(place_genre: 'position', name: '自宅')
   end
 end
