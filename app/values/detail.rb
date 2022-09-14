@@ -12,7 +12,6 @@ class Detail
 
   def initialize(attributes={})
     super(attributes)
-    puts next_action.attributes
     self.physical_point = calc_physical_point + (next_action.physical_point || 0)
   end
 
