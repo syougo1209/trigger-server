@@ -55,9 +55,14 @@ class CreateTrainHotelService
     next_action5 = NextAction.new(method: 'train', price: line_to_nearest_home[:price], required_minute: (line[:arrive_at] - line[:leave_at]) / 60, train: train5)
     detail5 = Detail.new(place_genre: 'station', name: line_to_nearest_home[:from][:station_name], arrive_at: line_to_nearest_home[:leave_at], leave_at: line_to_nearest_home[:leave_at], next_action: next_action5)
 
-    # 自宅の最寄駅(保土ヶ谷駅)
-    detail6 = Detail.new(place_genre: 'station', name: line_to_nearest_home[:to][:station_name], arrive_at: line_to_nearest_home[:arrive_at], leave_at: nil)
+    # 自宅の最寄駅(保土ヶ谷駅) => 自宅
+    minute6 = TimeCalculator.travel_minute(home_nearest_station, @home_coordinates, WALK_SPEED)
+    next_action6 = NextAction.new(method: 'walk', required_minute: minute6)
+    detail6 = Detail.new(place_genre: 'station', name: line_to_nearest_home[:to][:station_name], arrive_at: line_to_nearest_home[:arrive_at], leave_at: line_to_nearest_home[:arrive_at], next_action: next_action6)
 
-    Plan.new(details: [detail1, detail2, detail3, detail4, detail5, detail6])
+    # 自宅
+    detail7 = Detail.new(place_genre: 'other', name: '自宅', arrive_at: line_to_nearest_home[:arrive_at] + minute6.minute, leave_at: nil)
+
+    Plan.new(details: [detail1, detail2, detail3, detail4, detail5, detail6, detail7])
   end
 end

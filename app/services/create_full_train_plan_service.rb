@@ -24,9 +24,14 @@ class CreateFullTrainPlanService
     next_action2 = NextAction.new(method: 'train', price: line[:price], required_minute: (line[:arrive_at] - line[:leave_at]) / 60, train: train2)
     detail2 = Detail.new(place_genre: 'station', name: line[:from][:station_name], arrive_at: line[:leave_at], leave_at: line[:leave_at], next_action: next_action2)
 
-    # 自宅の最寄駅(保土ヶ谷駅)
-    detail3 = Detail.new(place_genre: 'station', name: line[:to][:station_name], arrive_at: line[:arrive_at], leave_at: nil)
+    # 自宅の最寄駅(保土ヶ谷駅) => 自宅
+    minute3 = TimeCalculator.travel_minute(home_nearest_station, @home_coordinates, WALK_SPEED)
+    next_action3 = NextAction.new(method: 'walk', required_minute: minute3)
+    detail3 = Detail.new(place_genre: 'station', name: line[:to][:station_name], arrive_at: line[:arrive_at], leave_at: line[:arrive_at], next_action: next_action3)
 
-    Plan.new(details: [detail1, detail2, detail3])
+    # 自宅
+    detail4 = Detail.new(place_genre: 'other', name: '自宅', arrive_at: line[:arrive_at] + minute3.minute, leave_at: nil)
+
+    Plan.new(details: [detail1, detail2, detail3, detail4])
   end
 end
